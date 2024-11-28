@@ -1,0 +1,6 @@
+int main(){
+int a,b;
+a=(b+a+(a+133));
+b=a/b;
+return b;
+}

@@ -1,0 +1,88 @@
+Function
+	Begin
+		Type
+			INT_KEYWORD int
+		Function name
+			Id
+				ID main
+		LEFT_BRACKET (
+		RIGHT_BRACKET )
+		LEFT_BRACKET {
+	Description
+		Descr
+			Type
+				INT_KEYWORD int
+			Var List
+				Id
+					ID a
+				COMMA ,
+				Var List
+					Id
+						ID b
+			SEMICOLON ;
+	Operators
+		Op
+			Id
+				ID a
+			EQUALS =
+			Expr
+				Term
+					Simple expr
+						LEFT_BRACKET (
+						Expr
+							Term
+								Simple expr
+									Id
+										ID b
+							SUM +
+							Expr
+								Term
+									Simple expr
+										Id
+											ID a
+								SUM +
+								Expr
+									Term
+										Simple expr
+											LEFT_BRACKET (
+											Expr
+												Term
+													Simple expr
+														Id
+															ID a
+												SUM +
+												Expr
+													Term
+														Simple expr
+															Const
+																INT_NUMBER 133
+											RIGHT_BRACKET )
+						RIGHT_BRACKET )
+			SEMICOLON ;
+		Operators
+			Op
+				Id
+					ID b
+				EQUALS =
+				Expr
+					Term
+						Simple expr
+							Id
+								ID a
+						DIVIDE /
+						Term
+							Simple expr
+								Id
+									ID b
+				SEMICOLON ;
+	End
+		RETURN KEYWORD return
+		Id
+			ID b
+		SEMICOLON ;
+		RIGHT_BRACKET }
+
+
+
+
+
