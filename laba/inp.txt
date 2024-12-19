@@ -1,6 +1,8 @@
-int main(){
-int a,b;
-a=(b+a+(a+133));
-b=a/b;
-return b;
+float main(){
+float c, d, e;
+int c;
+a = 2 + (3 - 4);
+d = 3.0;
+e = 7.0 / 5.9;
+return c;
 }

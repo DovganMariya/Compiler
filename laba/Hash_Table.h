@@ -3,7 +3,7 @@
 #include "main.h"
 #include "Node.h"
 #include "Token.h"
-
+#include <algorithm>
 using ptr_node = Node*;
 
 class Hash_table {
@@ -43,7 +43,9 @@ public:
     void print_table();
 
     void set_type(string& text, string& var_type);
-
+    bool Exists(string& name) {
+        return find(arr);
+    }
     vector<pair<size_t, Token>> to_array() const;
 };
 

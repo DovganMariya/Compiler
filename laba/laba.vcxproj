@@ -27,6 +27,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="parse_tree.h" />
+    <ClInclude Include="semantic.h" />
     <ClInclude Include="terminal.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Token.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="parse_tree.cpp" />
+    <ClCompile Include="semantic.cpp" />
     <ClCompile Include="terminal.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Token.cpp" />

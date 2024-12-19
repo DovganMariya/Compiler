@@ -1,7 +1,7 @@
 Function
 	Begin
 		Type
-			INT_KEYWORD int
+			FLOAT_KEYWORD float
 		Function name
 			Id
 				ID main
@@ -11,15 +11,35 @@ Function
 	Description
 		Descr
 			Type
-				INT_KEYWORD int
+				FLOAT_KEYWORD float
 			Var List
 				Id
-					ID a
+					ID c
 				COMMA ,
 				Var List
 					Id
-						ID b
+						ID d
+					COMMA ,
+					Var List
+						Id
+							ID e
 			SEMICOLON ;
+		Description
+			Descr
+				Type
+					INT_KEYWORD int
+				Var List
+					Id
+						ID c
+				SEMICOLON ;
+			Description
+				Descr
+					Type
+						INT_KEYWORD int
+					Var List
+						Id
+							ID c
+					SEMICOLON ;
 	Operators
 		Op
 			Id
@@ -28,57 +48,57 @@ Function
 			Expr
 				Term
 					Simple expr
-						LEFT_BRACKET (
-						Expr
-							Term
-								Simple expr
-									Id
-										ID b
-							SUM +
+						Const
+							INT_NUMBER 2
+				SUM +
+				Expr
+					Term
+						Simple expr
+							LEFT_BRACKET (
 							Expr
 								Term
 									Simple expr
-										Id
-											ID a
-								SUM +
+										Const
+											INT_NUMBER 3
+								MINUS -
 								Expr
 									Term
 										Simple expr
-											LEFT_BRACKET (
-											Expr
-												Term
-													Simple expr
-														Id
-															ID a
-												SUM +
-												Expr
-													Term
-														Simple expr
-															Const
-																INT_NUMBER 133
-											RIGHT_BRACKET )
-						RIGHT_BRACKET )
+											Const
+												INT_NUMBER 4
+							RIGHT_BRACKET )
 			SEMICOLON ;
 		Operators
 			Op
 				Id
-					ID b
+					ID d
 				EQUALS =
 				Expr
 					Term
 						Simple expr
-							Id
-								ID a
-						DIVIDE /
+							Const
+								FLOAT_NUMBER 3.0
+				SEMICOLON ;
+			Operators
+				Op
+					Id
+						ID e
+					EQUALS =
+					Expr
 						Term
 							Simple expr
-								Id
-									ID b
-				SEMICOLON ;
+								Const
+									FLOAT_NUMBER 7.0
+							DIVIDE /
+							Term
+								Simple expr
+									Const
+										FLOAT_NUMBER 5.9
+					SEMICOLON ;
 	End
 		RETURN KEYWORD return
 		Id
-			ID b
+			ID c
 		SEMICOLON ;
 		RIGHT_BRACKET }
 

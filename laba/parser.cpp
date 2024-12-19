@@ -78,7 +78,7 @@ bool parser::begin(parse_tree& begin_tree) {
     if (curr.get_type() != Token::ID) {
         check_lexical_error(curr);
         std::cout << curr_pos._data.size() << ':' << *curr_pos._data.rbegin() << ' ';
-        std::cout << "Error in the function name: the name must be the correct identifier\n";
+        std::cout << "Error in the function name: the name must be identifier\n";
         return false;
     }
 
@@ -301,9 +301,7 @@ bool parser::small_operators(parse_tree& small_operators_tree) {
 }
 
 bool parser::end(parse_tree& end_tree) {
-    // Добавим главную продукцию
     end_tree.add_product(terminal::END, parse_tree::END);
-    // Отслеживаем наличие ключевого слова return
     position curr_pos = _tokens.position();
     Token curr = _tokens.get_next_token();
     if (curr.get_type() != Token::RETURN) {
@@ -312,7 +310,7 @@ bool parser::end(parse_tree& end_tree) {
         std::cout << "error in the function ending: no keyword return\n";
         return false;
     }
-    // Отслеживаем наличие идентификатора
+    // Идентификатор
     curr_pos = _tokens.position();
     curr = _tokens.get_next_token();
     if (curr.get_type() != Token::ID) {
@@ -323,7 +321,7 @@ bool parser::end(parse_tree& end_tree) {
     }
     // Добавим прочитанный идентификатор в дерево
     end_tree.add_token(terminal::ID, curr);
-    // Отслеживаем наличие точки с запятой
+    // Точка с запятой
     curr_pos = _tokens.position();
     curr = _tokens.get_next_token();
     if (curr.get_type() != Token::SEMICOLON) {
@@ -332,7 +330,7 @@ bool parser::end(parse_tree& end_tree) {
         std::cout << "error in the function ending: no ;\n";
         return false;
     }
-    // Отслеживаем наличие закрывающей фигурной скобки
+    // Фигурная скобка
     curr_pos = _tokens.position();
     curr = _tokens.get_next_token();
     if (curr.get_type() != Token::RIGHT_FIGURE_BRACKET) {
@@ -369,7 +367,7 @@ bool parser::simple_expr(parse_tree& simple_expr_tree) {
         }
         return true;
     }
-    // Другие две продукции начинаются либо с числа, либо с идентификатора
+
     if (curr.get_type() != Token::ID && curr.get_type() != Token::INT_NUMBER && curr.get_type() != Token::FLOAT_NUMBER) {
         check_lexical_error(curr);
         std::cout << curr_pos._data.size() << ':' << *curr_pos._data.rbegin() << ' ';
@@ -377,7 +375,7 @@ bool parser::simple_expr(parse_tree& simple_expr_tree) {
             << " must be a number or a variable\n";
         return false;
     }
-    // Если все хорошо, то в зависимости от прочитанного токена добавляем нужную продукцию
+    
     if (curr.get_type() == Token::ID) {
         simple_expr_tree.add_product(terminal::SIMPLE_EXPR, parse_tree::SIMPLE_EXPR_1);
         simple_expr_tree.add_token(terminal::ID, curr);
