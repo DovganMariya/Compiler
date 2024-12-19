@@ -27,7 +27,7 @@ void semantic::feel_begin() {
     string type_text = type->get_text();
     _table.set_type(name_text, type_text);
     curr->_rpn = name->get_text();
-    // собираем атрибут Begin
+    // СЃРѕР±РёСЂР°РµРј Р°С‚СЂРёР±СѓС‚ Begin
     // in Begin
     curr = _tree._root->_children[0];
     curr->_rpn = curr->_children[0]->_rpn + " " + curr->_children[1]->_rpn;
@@ -39,7 +39,6 @@ void semantic::feel_end() {
     auto curr = _tree._root->_children[3];
     auto var = dynamic_pointer_cast<Token>(curr->_children[1]->_children[0]->_value);
     curr->_rpn = var->get_text() + " return\n";
-
     curr = _tree._root->_children[0];
     // in Type
     curr = curr->_children[0];
@@ -52,10 +51,10 @@ void semantic::feel_end() {
 }
 
 void semantic::feel_description(shared_ptr<tree_node>& curr_description) {
-    // Descr всегда есть, поэтому сначала разбираем его
+    // Descr РІСЃРµРіРґР° РµСЃС‚СЊ, РїРѕСЌС‚РѕРјСѓ СЃРЅР°С‡Р°Р»Р° СЂР°Р·Р±РёСЂР°РµРј РµРіРѕ
     feel_descr(curr_description->_children[0]);
     curr_description->_rpn = curr_description->_children[0]->_rpn;
-    // Проверяем, если дальше нет Description, то на этом все
+    // РџСЂРѕРІРµСЂСЏРµРј, РµСЃР»Рё РґР°Р»СЊС€Рµ РЅРµС‚ Description, С‚Рѕ РЅР° СЌС‚РѕРј РІСЃРµ
     if (curr_description->_children.size() == 1) {
         return;
     }
@@ -64,12 +63,12 @@ void semantic::feel_description(shared_ptr<tree_node>& curr_description) {
 }
 
 void semantic::feel_descr(shared_ptr<tree_node>& curr_descr) {
-    // Распознаем тип переменных в объявлении
+    // Р Р°СЃРїРѕР·РЅР°РµРј С‚РёРї РїРµСЂРµРјРµРЅРЅС‹С… РІ РѕР±СЉСЏРІР»РµРЅРёРё
     auto type = dynamic_pointer_cast<Token>(curr_descr->_children[0]->_children[0]->_value);
-    // Вызываем разбор var list и получаем число переменных в нем
+    // Р’С‹Р·С‹РІР°РµРј СЂР°Р·Р±РѕСЂ var list Рё РїРѕР»СѓС‡Р°РµРј С‡РёСЃР»Рѕ РїРµСЂРµРјРµРЅРЅС‹С… РІ РЅРµРј
     string var_type = type->get_text();
     int cnt_var = feel_var_list(curr_descr->_children[1], var_type);
-    // Собираем Descr
+    // РЎРѕР±РёСЂР°РµРј Descr
     curr_descr->_rpn = curr_descr->_children[1]->_rpn;
     curr_descr->_rpn += " " + type->get_text();
     curr_descr->_rpn += " " + std::to_string(cnt_var + 1);
@@ -77,24 +76,27 @@ void semantic::feel_descr(shared_ptr<tree_node>& curr_descr) {
 }
 
 int semantic::feel_var_list(shared_ptr<tree_node>& var_list, string& var_type) {
-    // Число переменных
     int cnt_var = 0;
-    // Если дальше есть еще var list, то сначала разбираем его
     if (var_list->_children.size() == 3) {
+
         cnt_var = feel_var_list(var_list->_children[2], var_type);
         var_list->_rpn = var_list->_children[2]->_rpn;
     }
-
     cnt_var++;
     auto var = dynamic_pointer_cast<Token>(var_list->_children[0]->_children[0]->_value);
     string var_text = var->get_text();
-    _table.set_type(var_text, var_type);
-    if (var_list->_rpn.empty()) {
-        var_list->_rpn += var->get_text();
+    if (_table.Find(var_text).get_type_variable() != "") {
+        cout << "Variable " << var_text << " already declared\n";
+        _is_not_error = false;
     }
     else {
-        var_list->_rpn += " " + var->get_text();
+        // Only set the type if the variable is not already declared
+        _table.set_type(var_text, var_type);
     }
+
+    // Add the current variable to the RPN representation
+    var_list->_rpn += var->get_text() + (var_list->_rpn.empty() ? "" : " ");
+
     return cnt_var;
 }
 
@@ -175,7 +177,7 @@ void semantic::feel_term(std::shared_ptr<tree_node>& curr_term, std::string& che
     }
     auto oper = dynamic_pointer_cast<Token>(curr_term->_children[1]->_value);
     feel_term(curr_term->_children[2], checker);
-    // проверка на операцию % от числа типа float
+    // РїСЂРѕРІРµСЂРєР° РЅР° РѕРїРµСЂР°С†РёСЋ % РѕС‚ С‡РёСЃР»Р° С‚РёРїР° float
     if (oper->get_type() == Token::MOD)
     {
         std::shared_ptr<Token> type_fist_operand;
